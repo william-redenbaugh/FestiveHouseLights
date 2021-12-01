@@ -2,6 +2,43 @@
  * Example to demonstrate thread definition, semaphores, and thread sleep.
  */
 #include <FreeRTOS_TEENSY4.h>
+#include <WS2812Serial.h>
+
+const int numled = 400;
+const int pin = 1;
+
+// Usable pins:
+//   Teensy LC:   1, 4, 5, 24
+//   Teensy 3.2:  1, 5, 8, 10, 31   (overclock to 120 MHz for pin 8)
+//   Teensy 3.5:  1, 5, 8, 10, 26, 32, 33, 48
+//   Teensy 3.6:  1, 5, 8, 10, 26, 32, 33
+//   Teensy 4.0:  1, 8, 14, 17, 20, 24, 29, 39
+//   Teensy 4.1:  1, 8, 14, 17, 20, 24, 29, 35, 47, 53
+
+byte drawingMemory[numled*3];         //  3 bytes per LED
+DMAMEM byte displayMemory[numled*12]; // 12 bytes per LED
+
+WS2812Serial leds(numled, displayMemory, drawingMemory, pin, WS2812_GRB);
+
+#define RED    0xFF0000
+#define GREEN  0x00FF00
+#define BLUE   0x0000FF
+#define YELLOW 0xFFFF00
+#define PINK   0xFF1088
+#define ORANGE 0xE05800
+#define WHITE  0xFFFFFF
+
+// Less intense...
+/*
+#define RED    0x160000
+#define GREEN  0x001600
+#define BLUE   0x000016
+#define YELLOW 0x101400
+#define PINK   0x120009
+#define ORANGE 0x100400
+#define WHITE  0x101010
+*/
+
 
 // The LED is attached to pin 13 on the Teensy 4.0
 const uint8_t LED_PIN = 13;
@@ -51,7 +88,7 @@ static void Thread2(void* arg) {
     xSemaphoreGive(sem);
 
     // Sleep for 200 milliseconds.
-    vTaskDelay((200L * configTICK_RATE_HZ) / 1000L);
+    vTaskDelay((500L * configTICK_RATE_HZ) / 1000L);
   }
 }
 //------------------------------------------------------------------------------
