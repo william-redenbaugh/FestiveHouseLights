@@ -10,6 +10,7 @@
             "includePath": [
                 "/home/ANT.AMAZON.COM/wredenba/Documents/FestiveHouseLights/house_lighting/include",
                 "/home/ANT.AMAZON.COM/wredenba/Documents/FestiveHouseLights/house_lighting/src",
+                "/home/ANT.AMAZON.COM/wredenba/Documents/FestiveHouseLights/house_lighting/lib/FreeRTOS-Teensy4/src",
                 "/home/ANT.AMAZON.COM/wredenba/.platformio/packages/framework-arduinoteensy/cores/teensy4",
                 "/home/ANT.AMAZON.COM/wredenba/.platformio/packages/framework-arduinoteensy/libraries/ADC",
                 "/home/ANT.AMAZON.COM/wredenba/.platformio/packages/framework-arduinoteensy/libraries/AccelStepper/src",
@@ -117,6 +118,7 @@
                 "path": [
                     "/home/ANT.AMAZON.COM/wredenba/Documents/FestiveHouseLights/house_lighting/include",
                     "/home/ANT.AMAZON.COM/wredenba/Documents/FestiveHouseLights/house_lighting/src",
+                    "/home/ANT.AMAZON.COM/wredenba/Documents/FestiveHouseLights/house_lighting/lib/FreeRTOS-Teensy4/src",
                     "/home/ANT.AMAZON.COM/wredenba/.platformio/packages/framework-arduinoteensy/cores/teensy4",
                     "/home/ANT.AMAZON.COM/wredenba/.platformio/packages/framework-arduinoteensy/libraries/ADC",
                     "/home/ANT.AMAZON.COM/wredenba/.platformio/packages/framework-arduinoteensy/libraries/AccelStepper/src",

@@ -1,0 +1,3 @@
+[submodule "house_lighting/lib/FreeRTOS-Teensy4"]
+	path = house_lighting/lib/FreeRTOS-Teensy4
+	url = git@github.com:juliandesvignes/FreeRTOS-Teensy4.git
