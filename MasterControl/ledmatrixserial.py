@@ -43,6 +43,25 @@ class LEDMatrix:
         n = colorsys.hsv_to_rgb(hue, saturation, value)
         self.set_led(int(n[0] * 255), int(n[1] * 255), int(n[2] * 255), pos)
 
+    def set_all_led(self, r, g, b):
+        for i in range(self.num_leds):
+            self.set_led(r, g, b, i)
+
+    def set_all_led_hsv(self, r, g, b):
+        if h > 255:
+            h = 255
+        if s > 255:
+            s = 255
+        if v > 255:
+            v = 255
+
+        hue = h/255
+        saturation = s/255
+        value = v/255
+        n = colorsys.hsv_to_rgb(hue, saturation, value)
+        self.set_all_led(int(n[0] * 255), int(n[1] * 255), int(n[2] * 255))
+        
+
     def set_led_kelvin(self, kelvin):
         r, g, b = convert_K_to_RGB(kelvin)
         for i in range(self.num_leds):
