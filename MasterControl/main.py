@@ -6,6 +6,8 @@ import math
 import threading
 import copy
 import atexit
+from json_parse import *
+import json
 
 kill_all = False
 
@@ -91,10 +93,38 @@ def ambient_led_thread():
             if kill_all:
                 return
 
+def web_interaction_thread():
+    localIP     = "127.0.0.1"
+    localPort   = 8080
+    bufferSize  = 1024
+    msgFromServer       = "Hello UDP Client"
+    bytesToSend         = str.encode(msgFromServer)
+    # Create a datagram socket
+    UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+    # Bind to address and ip
+    UDPServerSocket.bind((localIP, localPort))
+    print("UDP server up and listening")
+    # Listen for incoming datagrams
+    while(True):
+        bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
+        message = bytesAddressPair[0]
+        address = bytesAddressPair[1]
+        json_data = parse_input_json(message)
+
+        if(json_data["office_door_state"] == "free"):
+            free_busy_empty = 0
+
+        if(json_data["office_door_state"] == "busy"):
+            free_busy_empty = 1
+
+        if(json_data["office_door_state"] == "empty"):
+            free_busy_empty = 2
+
 update_thread_handler = threading.Thread(target=update_strip_thread)
 ambient_thread_handler = threading.Thread(target=ambient_led_thread)
 rainbow_thread_handler = threading.Thread(target=hallway_rainbow)
 busy_free_thread_handler = threading.Thread(target=busy_free_thread)
+network_thread_handler = threading.Thread(target=web_interaction_thread)
 update_thread_handler.start()
 ambient_thread_handler.start()
 rainbow_thread_handler.start()
