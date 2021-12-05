@@ -42,20 +42,33 @@ def hallway_rainbow():
                 return
             time.sleep(0.03)
 
+
 def exploding_colors():
     global living_room_strip
     hsv = [0] * living_room_strip.num_leds * 3
     while True:
         n = random.randint(0, living_room_strip.num_leds-1)
         h = random.randint(0, 255)
-        hsv[n * 3] = 170
+        hsv[n * 3] = 85
+        hsv[n * 3 + 1] = 255
+        hsv[n * 3 + 2] = 255
+
+        n = random.randint(0, living_room_strip.num_leds-1)
+        h = random.randint(0, 255)
+        hsv[n * 3] = 85
+        hsv[n * 3 + 1] = 0
+        hsv[n * 3 + 2] = 255
+
+        n = random.randint(0, living_room_strip.num_leds-1)
+        h = random.randint(0, 255)
+        hsv[n * 3] = 0
         hsv[n * 3 + 1] = 255
         hsv[n * 3 + 2] = 255
 
         # Decrement
         for i in range(living_room_strip.num_leds):
-            if hsv[i * 3 + 2] > 2:
-                hsv[i * 3 + 2] = (hsv[i * 3 + 2]) - 2
+            if hsv[i * 3 + 2] > 6:
+                hsv[i * 3 + 2] = (hsv[i * 3 + 2]) - 6
             else:
                 hsv[i * 3 + 2] = 0
 
