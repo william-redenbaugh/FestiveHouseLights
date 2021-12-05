@@ -28,7 +28,24 @@ class LEDMatrix:
         self.data_arr[n * 3 + 1] = g
         self.data_arr[n * 3 + 2] = b
         self.lock.release()
+
+    def get_led(self, n):
+        if n < 0:
+            return 
+        if n >= self.num_leds:
+            return
+
+        r = self.data_arr[n * 3]
+        g = self.data_arr[n * 3 + 1]
+        b = self.data_arr[n * 3 + 2]
+
+        return r, g, b
     
+    def get_led_hsv(self, n):
+        r, g, b = self.get_led(n)
+        hsv = colorsys.rgb_to_hsv(r, g, b)
+        return int(hsv[0]), int(hsv[1]), int(hsv[2])
+
     def set_led_hsv(self, h, s, v, pos):
         if h > 255:
             h = 255

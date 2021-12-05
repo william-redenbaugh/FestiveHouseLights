@@ -7,6 +7,7 @@ import threading
 import copy
 import atexit
 from json_parse import *
+import random
 import json
 
 kill_all = False
@@ -41,8 +42,29 @@ def hallway_rainbow():
                 return
             time.sleep(0.03)
 
-free_busy_empty = 0
+def exploding_colors():
+    global living_room_strip
+    hsv = [0] * living_room_strip.num_leds * 3
+    while True:
+        n = random.randint(0, living_room_strip.num_leds-1)
+        h = random.randint(0, 255)
+        hsv[n * 3] = 170
+        hsv[n * 3 + 1] = 255
+        hsv[n * 3 + 2] = 255
 
+        # Decrement
+        for i in range(living_room_strip.num_leds):
+            if hsv[i * 3 + 2] > 2:
+                hsv[i * 3 + 2] = (hsv[i * 3 + 2]) - 2
+            else:
+                hsv[i * 3 + 2] = 0
+
+        for i in range(living_room_strip.num_leds):
+            living_room_strip.set_led_hsv(hsv[i * 3], hsv[i * 3 + 1], hsv[i * 3 + 2], i)
+        
+        time.sleep(0.01)
+
+free_busy_empty = 0
 def busy_free_thread():
     global office_door_strip, free_busy_empty, kill_all
 
@@ -121,7 +143,7 @@ def web_interaction_thread():
             free_busy_empty = 2
 
 update_thread_handler = threading.Thread(target=update_strip_thread)
-ambient_thread_handler = threading.Thread(target=ambient_led_thread)
+ambient_thread_handler = threading.Thread(target=exploding_colors)
 rainbow_thread_handler = threading.Thread(target=hallway_rainbow)
 busy_free_thread_handler = threading.Thread(target=busy_free_thread)
 network_thread_handler = threading.Thread(target=web_interaction_thread)

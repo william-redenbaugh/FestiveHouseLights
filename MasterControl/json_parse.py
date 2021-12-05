@@ -1,6 +1,6 @@
 import json
 
-def parse_input_json(message_bytearray) 
+def parse_input_json(message_bytearray) :
     str_message = message_bytearray.decode(message_bytearray)
     data = None
     try: 
