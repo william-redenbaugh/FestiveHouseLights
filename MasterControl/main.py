@@ -43,39 +43,39 @@ def hallway_rainbow():
             time.sleep(0.03)
 
 
-def exploding_colors():
-    global living_room_strip
-    hsv = [0] * living_room_strip.num_leds * 3
+def exploding_colors(strip_tuple):
+    strip = strip_tuple
+    hsv = [0] * strip.num_leds * 3
     while True:
-        n = random.randint(0, living_room_strip.num_leds-1)
+        n = random.randint(0, strip.num_leds-1)
         h = random.randint(0, 255)
         hsv[n * 3] = 85
         hsv[n * 3 + 1] = 255
         hsv[n * 3 + 2] = 255
 
-        n = random.randint(0, living_room_strip.num_leds-1)
+        n = random.randint(0, strip.num_leds-1)
         h = random.randint(0, 255)
         hsv[n * 3] = 85
         hsv[n * 3 + 1] = 0
         hsv[n * 3 + 2] = 255
 
-        n = random.randint(0, living_room_strip.num_leds-1)
+        n = random.randint(0, strip.num_leds-1)
         h = random.randint(0, 255)
         hsv[n * 3] = 0
         hsv[n * 3 + 1] = 255
         hsv[n * 3 + 2] = 255
 
         # Decrement
-        for i in range(living_room_strip.num_leds):
+        for i in range(strip.num_leds):
             if hsv[i * 3 + 2] > 6:
-                hsv[i * 3 + 2] = (hsv[i * 3 + 2]) - 6
+                hsv[i * 3 + 2] = (hsv[i * 3 + 2]) - 15
             else:
                 hsv[i * 3 + 2] = 0
 
-        for i in range(living_room_strip.num_leds):
-            living_room_strip.set_led_hsv(hsv[i * 3], hsv[i * 3 + 1], hsv[i * 3 + 2], i)
+        for i in range(strip.num_leds):
+            strip.set_led_hsv(hsv[i * 3], hsv[i * 3 + 1], hsv[i * 3 + 2], i)
         
-        time.sleep(0.01)
+        time.sleep(0.05)
 
 free_busy_empty = 0
 def busy_free_thread():
@@ -156,13 +156,19 @@ def web_interaction_thread():
             free_busy_empty = 2
 
 update_thread_handler = threading.Thread(target=update_strip_thread)
-ambient_thread_handler = threading.Thread(target=exploding_colors)
-rainbow_thread_handler = threading.Thread(target=hallway_rainbow)
+ambient_thread_handler = threading.Thread(target=ambient_led_thread)
+
+rainbow_thread_handler = threading.Thread(target=exploding_colors, args=(left_hallway,))
+rainbow_thread_handler2 = threading.Thread(target=exploding_colors, args=(right_hallway,))
+
 busy_free_thread_handler = threading.Thread(target=busy_free_thread)
 network_thread_handler = threading.Thread(target=web_interaction_thread)
 update_thread_handler.start()
 ambient_thread_handler.start()
+
 rainbow_thread_handler.start()
+rainbow_thread_handler2.start()
+
 busy_free_thread_handler.start()
 
 def exit_handler():

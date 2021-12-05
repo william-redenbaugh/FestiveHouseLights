@@ -32,7 +32,7 @@ void update_led_strip(void *parameters){
 }
 
 void setup() {
-  Serial.begin(921600);
+  Serial.begin(230400);
   // put your setup code here, to run once:
   strip.begin();
   strip.setBrightness(200);
